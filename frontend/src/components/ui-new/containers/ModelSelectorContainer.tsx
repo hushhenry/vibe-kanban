@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   CheckIcon,
   FastForwardIcon,
@@ -76,6 +77,7 @@ export function ModelSelectorContainer({
   onPresetSelect,
   onSessionOverridesChange,
 }: ModelSelectorContainerProps) {
+  const { t } = useTranslation('common');
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const { profiles, setProfiles, reloadSystem } = useUserSystem();
@@ -200,7 +202,7 @@ export function ModelSelectorContainer({
           showCaret={false}
         />
         <DropdownMenuContent align="start">
-          <DropdownMenuLabel>Preset</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('modelSelector.preset')}</DropdownMenuLabel>
           {presets.length > 0 ? (
             presets.map((preset) => (
               <DropdownMenuItem
@@ -216,7 +218,7 @@ export function ModelSelectorContainer({
           )}
           <DropdownMenuSeparator />
           <DropdownMenuItem icon={GearIcon} onClick={onAdvancedSettings}>
-            Custom
+            {t('modelSelector.custom')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -256,7 +258,7 @@ export function ModelSelectorContainer({
             icon={permissionIcon}
           />
           <DropdownMenuContent align="start">
-            <DropdownMenuLabel>Permissions</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('modelSelector.permissions')}</DropdownMenuLabel>
             {config.permissions.map((policy) => {
               const meta = permissionMetaByPolicy[policy];
               return (
@@ -277,12 +279,12 @@ export function ModelSelectorContainer({
         <DropdownMenu>
           <DropdownMenuTriggerButton label={agentLabel} />
           <DropdownMenuContent align="start">
-            <DropdownMenuLabel>Agent</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('modelSelector.agent')}</DropdownMenuLabel>
             <DropdownMenuItem
               icon={selectedAgentId === null ? CheckIcon : undefined}
               onClick={() => handleAgentSelect(null)}
             >
-              Default
+              {t('modelSelector.default')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             {config.agents.map((agentOption) => (

@@ -1,4 +1,5 @@
 import type { Ref } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   BrainIcon,
   CaretDownIcon,
@@ -38,9 +39,12 @@ function ReasoningDropdown({
   selectedId,
   onSelect,
 }: ReasoningDropdownProps) {
+  const { t } = useTranslation('common');
   if (!options.length) return null;
 
-  const selectedLabel = getReasoningLabel(options, selectedId);
+  const selectedLabel = selectedId
+    ? getReasoningLabel(options, selectedId)
+    : t('modelSelector.default');
   const isDefaultSelected = !selectedId;
 
   return (
@@ -69,7 +73,7 @@ function ReasoningDropdown({
           icon={isDefaultSelected ? CheckIcon : undefined}
           onClick={() => onSelect(null)}
         >
-          Default
+          {t('modelSelector.default')}
         </DropdownMenuItem>
         {options.map((option) => (
           <DropdownMenuItem
@@ -134,6 +138,7 @@ export function ModelList({
   onSelectDefault,
   scrollRef,
 }: ModelListProps) {
+  const { t } = useTranslation('common');
   const normalizedSearch = searchQuery.trim().toLowerCase();
   const pinnedSet = new Set(pinnedModelIds.map((entry) => entry.toLowerCase()));
 
@@ -185,7 +190,7 @@ export function ModelList({
             isDefaultSelected && 'font-semibold'
           )}
         >
-          Default
+          {t('modelSelector.default')}
         </span>
       </button>
     </div>

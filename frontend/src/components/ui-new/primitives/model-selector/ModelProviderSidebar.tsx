@@ -1,4 +1,5 @@
 import type { Ref } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PushPinIcon } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
 import type { ModelProvider } from 'shared/types';
@@ -21,6 +22,7 @@ export function ModelProviderSidebar({
   defaultOption,
   scrollRef,
 }: ModelProviderSidebarProps) {
+  const { t } = useTranslation('common');
   const sortedProviders = [...providers].sort((a, b) =>
     a.name.localeCompare(b.name)
   );
@@ -85,7 +87,7 @@ export function ModelProviderSidebar({
         'flex-none bg-secondary/40 h-full min-h-0 overflow-y-auto'
       )}
     >
-      <div className="sr-only">Providers</div>
+      <div className="sr-only">{t('modelSelector.providers')}</div>
       <div className="flex flex-col px-2">
         <div className="flex min-h-full flex-col justify-end gap-1">
           {otherList.map(renderProvider)}

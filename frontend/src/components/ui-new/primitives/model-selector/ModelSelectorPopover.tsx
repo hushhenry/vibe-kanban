@@ -1,4 +1,5 @@
 import type { ReactElement, Ref } from 'react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { getPinnedProviderIds } from '@/utils/pinnedModels';
 import {
@@ -67,6 +68,7 @@ export function ModelSelectorPopover({
   modelListScrollRef,
   providerSidebarScrollRef,
 }: ModelSelectorPopoverProps) {
+  const { t } = useTranslation('common');
   const models = config.models;
   const showProviderSidebar = config.providers.length > 1;
   const isDefaultProviderSelected =
@@ -135,7 +137,7 @@ export function ModelSelectorPopover({
               <span className="text-sm text-red-600">{config.error}</span>
             </div>
           )}
-          <DropdownMenuLabel>Model</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('modelSelector.model')}</DropdownMenuLabel>
           <div className="flex flex-1 min-h-0">
             {showProviderSidebar && (
               <ModelProviderSidebar
