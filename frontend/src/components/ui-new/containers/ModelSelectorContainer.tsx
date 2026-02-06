@@ -258,7 +258,9 @@ export function ModelSelectorContainer({
             icon={permissionIcon}
           />
           <DropdownMenuContent align="start">
-            <DropdownMenuLabel>{t('modelSelector.permissions')}</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              {t('modelSelector.permissions')}
+            </DropdownMenuLabel>
             {config.permissions.map((policy) => {
               const meta = permissionMetaByPolicy[policy];
               return (
