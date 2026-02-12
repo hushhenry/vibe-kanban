@@ -1,16 +1,16 @@
 {
-  "name": "vibe-kanban",
+  "name": "vibe-kanban-nologin",
   "private": false,
   "version": "0.1.12",
   "main": "index.js",
   "bin": {
-    "vibe-kanban": "bin/cli.js"
+    "vibe-kanban-nologin": "bin/cli.js"
   },
-  "keywords": [],
-  "author": "bloop",
+  "keywords": ["kanban", "project-management", "coding-agent", "vibe-coding"],
+  "author": "hushhenry",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BloopAI/vibe-kanban"
+    "url": "https://github.com/hushhenry/vibe-kanban"
   },
   "license": "",
   "description": "NPX wrapper around vibe-kanban and vibe-kanban-mcp",

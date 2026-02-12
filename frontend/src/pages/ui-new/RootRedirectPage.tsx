@@ -19,10 +19,11 @@ export function RootRedirectPage() {
         return;
       }
 
-      if (!config.remote_onboarding_acknowledged) {
-        setDestination('/onboarding');
-        return;
-      }
+      // Skip onboarding check - directly proceed to app
+      // if (!config.remote_onboarding_acknowledged) {
+      //   setDestination('/onboarding');
+      //   return;
+      // }
 
       if (loginStatus?.status !== 'loggedin') {
         setDestination(DEFAULT_DESTINATION);

@@ -218,10 +218,8 @@ export function OnboardingSignInPage() {
     );
   }
 
-  if (
-    config.remote_onboarding_acknowledged &&
-    !isCompletingOnboardingRef.current
-  ) {
+  // Always redirect to home - skip onboarding
+  if (!isCompletingOnboardingRef.current) {
     return <Navigate to="/" replace />;
   }
 
