@@ -304,9 +304,8 @@ export function LandingPage() {
     );
   }
 
-  if (config.remote_onboarding_acknowledged) {
-    return <Navigate to="/" replace />;
-  }
+  // Always redirect to home - skip onboarding
+  return <Navigate to="/" replace />;
 
   return (
     <div className="h-screen overflow-auto bg-primary">

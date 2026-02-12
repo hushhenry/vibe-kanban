@@ -1,9 +1,9 @@
 {
-  "name": "vibe-kanban",
+  "name": "vibe-kanban-nologin",
   "version": "0.1.12",
-  "private": true,
+  "private": false,
   "bin": {
-    "vibe-kanban": "npx-cli/bin/cli.js"
+    "vibe-kanban-nologin": "npx-cli/bin/cli.js"
   },
   "files": [
     "npx-cli/bin/cli.js",
