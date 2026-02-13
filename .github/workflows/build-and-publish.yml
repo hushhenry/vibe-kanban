@@ -14,7 +14,6 @@ concurrency:
 permissions:
   contents: write
   packages: write
-  id-token: write # Required for OIDC publishing
 
 env:
   NODE_VERSION: 22
@@ -93,7 +92,9 @@ jobs:
       - name: Publish to npm
         run: |
           cd npx-cli
-          npm publish --access public --provenance
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
