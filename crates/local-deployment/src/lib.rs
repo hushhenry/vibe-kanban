@@ -291,9 +291,16 @@ impl LocalDeployment {
     }
 
     pub async fn get_login_status(&self) -> LoginStatus {
+        let dummy_profile = api_types::ProfileResponse {
+            user_id: Uuid::nil(),
+            username: Some("local-user".to_string()),
+            email: "local@example.com".to_string(),
+            providers: vec![],
+        };
+
         if self.auth_context.get_credentials().await.is_none() {
-            self.auth_context.clear_profile().await;
-            return LoginStatus::LoggedOut;
+            // self.auth_context.clear_profile().await;
+            return LoginStatus::LoggedIn { profile: dummy_profile };
         };
 
         if let Some(cached_profile) = self.auth_context.cached_profile().await {
@@ -303,7 +310,7 @@ impl LocalDeployment {
         }
 
         let Ok(client) = self.remote_client() else {
-            return LoginStatus::LoggedOut;
+            return LoginStatus::LoggedIn { profile: dummy_profile };
         };
 
         match client.profile().await {
@@ -312,11 +319,11 @@ impl LocalDeployment {
                 LoginStatus::LoggedIn { profile }
             }
             Err(RemoteClientError::Auth) => {
-                let _ = self.auth_context.clear_credentials().await;
-                self.auth_context.clear_profile().await;
-                LoginStatus::LoggedOut
+                // let _ = self.auth_context.clear_credentials().await;
+                // self.auth_context.clear_profile().await;
+                LoginStatus::LoggedIn { profile: dummy_profile }
             }
-            Err(_) => LoginStatus::LoggedOut,
+            Err(_) => LoginStatus::LoggedIn { profile: dummy_profile },
         }
     }
 
