@@ -63,6 +63,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Install zip (Windows)
+        if: runner.os == 'Windows'
+        run: choco install zip -y
+
       - name: Build npx package
         run: pnpm run build:npx
         env:
