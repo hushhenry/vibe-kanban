@@ -27,6 +27,9 @@ case "$OS" in
   darwin)
     OS="macos"
     ;;
+  msys*|mingw*|cygwin*)
+    OS="windows"
+    ;;
   *)
     echo "⚠️  Warning: Unknown OS $OS, using as-is"
     ;;
@@ -59,22 +62,27 @@ cargo build --release --bin mcp_task_server --manifest-path Cargo.toml
 
 echo "📦 Creating distribution package..."
 
+EXT=""
+if [ "$OS" == "windows" ]; then
+  EXT=".exe"
+fi
+
 # Copy the main binary
-cp ${CARGO_TARGET_DIR}/release/server vibe-kanban
-zip -q vibe-kanban.zip vibe-kanban
-rm -f vibe-kanban 
+cp ${CARGO_TARGET_DIR}/release/server${EXT} vibe-kanban${EXT}
+zip -q vibe-kanban.zip vibe-kanban${EXT}
+rm -f vibe-kanban${EXT} 
 mv vibe-kanban.zip npx-cli/dist/$PLATFORM/vibe-kanban.zip
 
 # Copy the MCP binary
-cp ${CARGO_TARGET_DIR}/release/mcp_task_server vibe-kanban-mcp
-zip -q vibe-kanban-mcp.zip vibe-kanban-mcp
-rm -f vibe-kanban-mcp
+cp ${CARGO_TARGET_DIR}/release/mcp_task_server${EXT} vibe-kanban-mcp${EXT}
+zip -q vibe-kanban-mcp.zip vibe-kanban-mcp${EXT}
+rm -f vibe-kanban-mcp${EXT}
 mv vibe-kanban-mcp.zip npx-cli/dist/$PLATFORM/vibe-kanban-mcp.zip
 
 # Copy the Review CLI binary
-cp ${CARGO_TARGET_DIR}/release/review vibe-kanban-review
-zip -q vibe-kanban-review.zip vibe-kanban-review
-rm -f vibe-kanban-review
+cp ${CARGO_TARGET_DIR}/release/review${EXT} vibe-kanban-review${EXT}
+zip -q vibe-kanban-review.zip vibe-kanban-review${EXT}
+rm -f vibe-kanban-review${EXT}
 mv vibe-kanban-review.zip npx-cli/dist/$PLATFORM/vibe-kanban-review.zip
 
 echo "✅ Build complete!"
