@@ -22,13 +22,14 @@ env:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
             name: linux-x64
           - os: macos-latest
             name: macos-arm64
-          - os: macos-13
+          - os: macos-14
             name: macos-x64
           - os: windows-latest
             name: windows-x64
@@ -65,7 +66,7 @@ jobs:
       - name: Build npx package
         run: pnpm run build:npx
         env:
-          NODE_OPTIONS: "--max-old-space-size=4096"
+          NODE_OPTIONS: "--max-old-space-size=8192"
 
       - name: Get version
         id: version
