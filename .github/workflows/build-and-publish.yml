@@ -21,7 +21,10 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-13, macos-latest]
+    runs-on: ${{ matrix.os }}
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
@@ -44,7 +47,7 @@ jobs:
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
         with:
-          shared-key: "rust-build"
+          shared-key: "rust-build-${{ matrix.os }}"
 
       - name: Install dependencies
         run: pnpm install
@@ -61,7 +64,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: npx-package
+          name: npx-package-${{ matrix.os }}
           path: npx-cli/dist/
           retention-days: 7
 
@@ -83,11 +86,12 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
 
-      - name: Download build artifacts
+      - name: Download all build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: npx-package
           path: npx-cli/dist/
+          pattern: npx-package-*
+          merge-multiple: true
 
       - name: Publish to npm
         run: |
