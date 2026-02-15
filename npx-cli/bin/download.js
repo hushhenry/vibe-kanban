@@ -3,15 +3,14 @@ const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
 
-// Replaced during npm pack by workflow
-const R2_BASE_URL = "__R2_PUBLIC_URL__";
-const BINARY_TAG = "__BINARY_TAG__"; // e.g., v0.0.135-20251215122030
+// Use the version from package.json as the tag
+const PACKAGE_VERSION = require("../../package.json").version;
+const BINARY_TAG = `v${PACKAGE_VERSION}`;
 const CACHE_DIR = path.join(require("os").homedir(), ".vibe-kanban", "bin");
 
-// Local development mode: use binaries from npx-cli/dist/ instead of R2
-// Only activate if dist/ exists (i.e., running from source after local-build.sh)
+// Local development mode: only activate if explicitly requested via env var
 const LOCAL_DIST_DIR = path.join(__dirname, "..", "dist");
-const LOCAL_DEV_MODE = fs.existsSync(LOCAL_DIST_DIR) || process.env.VIBE_KANBAN_LOCAL === "1";
+const LOCAL_DEV_MODE = process.env.VIBE_KANBAN_LOCAL === "1";
 
 async function fetchJson(url) {
   return new Promise((resolve, reject) => {
@@ -116,22 +115,20 @@ async function ensureBinary(platform, binaryName, onProgress) {
 
   fs.mkdirSync(cacheDir, { recursive: true });
 
-  const manifest = await fetchJson(`${R2_BASE_URL}/binaries/${BINARY_TAG}/manifest.json`);
-  const binaryInfo = manifest.platforms?.[platform]?.[binaryName];
-
-  if (!binaryInfo) {
-    throw new Error(`Binary ${binaryName} not available for ${platform}`);
-  }
-
-  const url = `${R2_BASE_URL}/binaries/${BINARY_TAG}/${platform}/${binaryName}.zip`;
-  await downloadFile(url, zipPath, binaryInfo.sha256, onProgress);
+  // Download from GitHub Releases
+  // Asset name convention: {binaryName}-{platform}.zip
+  // e.g. vibe-kanban-linux-x64.zip
+  const url = `https://github.com/hushhenry/vibe-kanban/releases/download/${BINARY_TAG}/${binaryName}-${platform}.zip`;
+  
+  // We skip SHA256 verification since we don't have a manifest
+  await downloadFile(url, zipPath, null, onProgress);
 
   return zipPath;
 }
 
 async function getLatestVersion() {
-  const manifest = await fetchJson(`${R2_BASE_URL}/binaries/manifest.json`);
-  return manifest.latest;
+  // For now, assume current version is latest to avoid complex API checks
+  return PACKAGE_VERSION;
 }
 
-module.exports = { R2_BASE_URL, BINARY_TAG, CACHE_DIR, LOCAL_DEV_MODE, LOCAL_DIST_DIR, ensureBinary, getLatestVersion };
+module.exports = { BINARY_TAG, CACHE_DIR, LOCAL_DEV_MODE, LOCAL_DIST_DIR, ensureBinary, getLatestVersion };
