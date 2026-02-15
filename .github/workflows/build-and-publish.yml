@@ -74,6 +74,7 @@ jobs:
 
       - name: Get version
         id: version
+        shell: bash
         run: |
           VERSION=$(node -p "require('./npx-cli/package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
