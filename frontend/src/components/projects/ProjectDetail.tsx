@@ -97,8 +97,8 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
   }
 
   return (
-    <div className="space-y-6 py-12 px-4">
-      <div className="flex justify-between items-start">
+    <div className="space-y-6 py-6 sm:py-12 px-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
         <div className="flex items-center space-x-4">
           <Button variant="outline" onClick={onBack}>
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -113,8 +113,10 @@ export function ProjectDetail({ projectId, onBack }: ProjectDetailProps) {
             </p>
           </div>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={() => navigate(`/projects/${projectId}/tasks`)}>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            onClick={() => navigate(`/local-projects/${projectId}/tasks`)}
+          >
             <CheckSquare className="mr-2 h-4 w-4" />
             View Tasks
           </Button>

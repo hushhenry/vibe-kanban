@@ -46,16 +46,13 @@ import { NewDesignScope } from '@/components/ui-new/scope/NewDesignScope';
 import { VSCodeScope } from '@/components/ui-new/scope/VSCodeScope';
 import { TerminalProvider } from '@/contexts/TerminalContext';
 
-// New design pages
+// New design pages (kept for VSCode workspace route only; other entry points redirect to legacy)
 import { Workspaces } from '@/pages/ui-new/Workspaces';
 import { VSCodeWorkspacePage } from '@/pages/ui-new/VSCodeWorkspacePage';
 import { WorkspacesLanding } from '@/pages/ui-new/WorkspacesLanding';
 import { ElectricTestPage } from '@/pages/ui-new/ElectricTestPage';
 import { ProjectKanban } from '@/pages/ui-new/ProjectKanban';
 import { MigratePage } from '@/pages/ui-new/MigratePage';
-import { LandingPage } from '@/pages/ui-new/LandingPage';
-import { OnboardingSignInPage } from '@/pages/ui-new/OnboardingSignInPage';
-import { RootRedirectPage } from '@/pages/ui-new/RootRedirectPage';
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes);
 
@@ -125,29 +122,58 @@ function AppContent() {
       <ThemeProvider initialTheme={config?.theme || ThemeMode.SYSTEM}>
         <SearchProvider>
           <SentryRoutes>
+            {/* Root and new-UI entry points redirect to legacy (local projects) */}
             <Route
               path="/"
-              element={
-                <NewDesignScope>
-                  <RootRedirectPage />
-                </NewDesignScope>
-              }
+              element={<Navigate to="/local-projects" replace />}
             />
             <Route
               path="/onboarding"
-              element={
-                <NewDesignScope>
-                  <LandingPage />
-                </NewDesignScope>
-              }
+              element={<Navigate to="/local-projects" replace />}
             />
             <Route
               path="/onboarding/sign-in"
-              element={
-                <NewDesignScope>
-                  <OnboardingSignInPage />
-                </NewDesignScope>
-              }
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/workspaces"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/workspaces/create"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/workspaces/:workspaceId"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/projects/:projectId"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/projects/:projectId/issues/new"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/projects/:projectId/issues/:issueId"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/projects/:projectId/issues/:issueId/workspaces/:workspaceId"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/projects/:projectId/issues/:issueId/workspaces/create/:draftId"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/projects/:projectId/workspaces/create/:draftId"
+              element={<Navigate to="/local-projects" replace />}
+            />
+            <Route
+              path="/migrate"
+              element={<Navigate to="/local-projects" replace />}
             />
 
             {/* ========== LEGACY DESIGN ROUTES ========== */}

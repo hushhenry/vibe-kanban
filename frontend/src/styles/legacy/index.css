@@ -211,10 +211,24 @@
 
   .legacy-design {
     @apply bg-background text-foreground font-chivo-mono;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .legacy-design *:focus {
     @apply ring-inset;
+  }
+
+  /* Touch-friendly tap targets on touch devices */
+  @media (pointer: coarse) {
+    .legacy-design nav button[aria-label],
+    .legacy-design nav a[aria-label] {
+      min-height: 44px;
+      min-width: 44px;
+    }
   }
 
   .legacy-design .logo {
@@ -222,8 +236,14 @@
   }
 }
 
-/* ANSI color classes for fancy-ansi */
+/* ANSI color classes for fancy-ansi + mobile kanban */
 @layer components {
+  @media (max-width: 640px) {
+    .legacy-design [class*='grid-flow-col'][class*='auto-cols'] {
+      grid-auto-columns: minmax(160px, 260px);
+    }
+  }
+
   .ansi-red {
     @apply text-red-500;
   }

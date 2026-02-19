@@ -143,8 +143,8 @@ export function Navbar() {
 
   return (
     <div className="border-b bg-background">
-      <div className="w-full px-3">
-        <div className="flex items-center h-12 py-2">
+      <div className="w-full px-3 sm:px-4">
+        <div className="flex items-center min-h-12 h-12 py-2 gap-1 sm:gap-2">
           <div className="flex-1 flex items-center">
             <Link to="/local-projects">
               <Logo />

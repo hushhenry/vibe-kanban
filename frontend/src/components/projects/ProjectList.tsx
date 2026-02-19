@@ -48,7 +48,7 @@ export function ProjectList() {
   }, [projects, focusedProjectId]);
 
   return (
-    <div className="space-y-6 p-8 pb-16 md:pb-8 h-full overflow-auto">
+    <div className="space-y-6 p-4 sm:p-8 pb-16 md:pb-8 h-full overflow-auto">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
