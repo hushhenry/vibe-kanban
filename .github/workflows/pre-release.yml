@@ -51,17 +51,10 @@ jobs:
       - uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          ssh-key: ${{ secrets.DEPLOY_KEY }}
 
       - name: setup node
         uses: ./.github/actions/setup-node
 
-      - name: Setup SSH Agent for private dependencies
-        id: ssh-setup
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.VK_PRIVATE_DEPLOY_KEY }}
 
       - name: Generate branch suffix
         id: branch
@@ -130,13 +123,6 @@ jobs:
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
 
-      - name: Update remote crate lockfile
-        if: ${{ steps.ssh-setup.outcome == 'success' }}
-        run: cargo generate-lockfile --manifest-path crates/remote/Cargo.toml
-
-      - name: Stop SSH agent
-        if: ${{ steps.ssh-setup.outcome == 'success' }}
-        run: ssh-agent -k
 
       - name: Commit changes and create tag
         run: |
